@@ -51,7 +51,35 @@ const users = {
   },
 
   async signin(req, res, next) {
-    
+    const { email, password } = req.body;
+
+    email = email ? email.trim() : email;
+    password = password ? password.trim() : password;
+
+    if (!isNotEmpty({ email, password }).valid) {
+      return next(appError(400, 1, isNotEmpty({ email, password }).msg));
+    }
+
+    if (!isValidEmail(email).valid) {
+      return next(appError(400, 1, isValidEmail(email).msg));
+    }
+
+    if (!isValidPassword(password).valid) {
+      return next(appError(400, 1, isValidPassword(password).msg));
+    }
+
+    const user = await User.findOne({ email }).select('+passwrod');
+
+    if (!user) {
+      return next(appError(400, 3, { email: '帳號、密碼不正確' }));
+    }
+
+    const auth = await bcrypt.compare(password, user.password);
+    if (!auth) {
+      return next(appError(400, 3, { email: '帳號、密碼不正確' }));
+    }
+
+    generateSendJWT(user, 200, res);
   },
 
   async updatePassword(req, res, next) {
