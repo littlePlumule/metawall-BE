@@ -1,0 +1,27 @@
+const Post = require('../models/postModel');
+const { appError } = require('../service/errorHandler');
+const httpResponse = require('../service/resHandle');
+
+const posts = {
+  async getPosts() {
+
+  },
+
+  async getPost() {
+
+  },
+  
+  async createdPost() {
+
+  },
+
+  async updatePost() {
+
+  },
+
+  async deletePost() {
+    
+  }
+};
+
+module.exports = posts;
