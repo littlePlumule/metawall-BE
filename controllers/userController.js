@@ -68,7 +68,7 @@ const users = {
       return next(appError(400, 1, isValidPassword(password).msg));
     }
 
-    const user = await User.findOne({ email }).select('+passwrod');
+    const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
       return next(appError(400, 3, { email: '帳號、密碼不正確' }));
@@ -83,7 +83,7 @@ const users = {
   },
 
   async updatePassword(req, res, next) {
-    let { password, confirmPassword } = req;
+    let { password, confirmPassword } = req.body;
 
     password = password ? password.trim() : password;
     confirmPassword = confirmPassword ? confirmPassword.trim() : confirmPassword;
