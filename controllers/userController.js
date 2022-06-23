@@ -108,11 +108,13 @@ const users = {
   },
 
   async getMyProfile(req, res, next) {
-    
+    const profile = await User.findById(req.user.id);
+    httpResponse(res, profile);
   },
 
   async getOtherProfile(req, res, next) {
-    
+    const user = await User.findById(req.params.userId);
+    httpResponse(res, user);
   },
 
   async updateProfile(req, res, next) {
