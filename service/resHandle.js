@@ -1,5 +1,5 @@
 const httpResponse = (res, data = null, message = null) => {
-  const responseMsg = '';
+  let responseMsg = '';
   switch (message) {
     case 0:
       responseMsg = '操作成功';
@@ -26,7 +26,7 @@ const httpResponse = (res, data = null, message = null) => {
 
   res.status(200).send({
     status: 'success',
-    data: data
+    data
   });
 };
 
