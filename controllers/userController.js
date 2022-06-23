@@ -83,7 +83,28 @@ const users = {
   },
 
   async updatePassword(req, res, next) {
-    
+    const { password, confirmPassword } = req;
+
+    password = password ? password.trim() : password;
+    confirmPassword = confirmPassword ? confirmPassword.trim() : confirmPassword;
+
+    if (!isNotEmpty({ password, confirmPassword }).valid) {
+      return next(appError(400, 1, isNotEmpty({ password, confirmPassword }).msg));
+    }
+
+    if (password !== confirmPassword) {
+      return next(appError(400, 1, { confirmPassword: '密碼不一致' }));
+    }
+
+    if (!isValidPassword(password).valid) {
+      return next(appError(400, 1, isValidPassword(password).msg));
+    }
+
+    const newPassword = await bcrypt.hash(password, 12);
+
+    const user = await User.findByIdAndUpdate(req.user.id, { password: newPassword });
+
+    generateSendJWT(user, 200, res);
   },
 
   async getMyProfile(req, res, next) {
