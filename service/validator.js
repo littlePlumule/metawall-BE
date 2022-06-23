@@ -38,8 +38,8 @@ module.exports = {
   },
 
   isValidGender(gender) {
-    return gender === 'mali' || gender === 'femail'
+    return gender === 'male' || gender === 'female'
       ? { valid: true }
-      : { valid: false, msg: { gender: '姓名只能填寫 male 或 female' } }
+      : { valid: false, msg: { gender: '性別只能填寫 male 或 female' } }
   }
 }
