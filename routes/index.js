@@ -2,7 +2,7 @@ const usersRouter = require('./user');
 const postsRouter = require('./follows');
 const likesRouter = require('./likes');
 const followsRouter = require('./follows');
-const commentRouter = reuqire('./comment.js');
+const commentRouter = require('./comment.js');
 
 module.exports = app => {
   app.use('/meta/user', usersRouter);

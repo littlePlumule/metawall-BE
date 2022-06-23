@@ -24,7 +24,7 @@ require('./routes')(app);
 // 錯誤處理
 require('./service/process');
 const { errorHandlerMainProcess } = require('./service/errorHandler');
-app.use((res, res, next) => {
+app.use((req, res, next) => {
   res.status(404).send({
     status: false,
     message: '無此頁面'
