@@ -29,13 +29,13 @@ const isAuth = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
-  if (!token) return next(appError(401, '你尚未登入'))
+  if (!token) return next(appError(401, 4, '你尚未登入'))
 
   // 驗證 token 正確性
   const decoded = await new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       err
-      ? reject(next(appError(401, 'token 驗證錯誤')))
+      ? reject(next(appError(401, 3, 'token 驗證錯誤')))
       : resolve(payload)
     });
   });
