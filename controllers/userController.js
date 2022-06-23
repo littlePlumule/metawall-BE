@@ -13,7 +13,7 @@ const {
 
 const users = {
   async signup(req, res, next) {
-    const { email, password, nickName } = req.body;
+    let { email, password, nickName } = req.body;
 
     nickName = nickName ? nickName.trim() : nickName;
     email = email ? email.trim() : email;
@@ -51,7 +51,7 @@ const users = {
   },
 
   async signin(req, res, next) {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
 
     email = email ? email.trim() : email;
     password = password ? password.trim() : password;
@@ -83,7 +83,7 @@ const users = {
   },
 
   async updatePassword(req, res, next) {
-    const { password, confirmPassword } = req;
+    let { password, confirmPassword } = req;
 
     password = password ? password.trim() : password;
     confirmPassword = confirmPassword ? confirmPassword.trim() : confirmPassword;
@@ -118,7 +118,7 @@ const users = {
   },
 
   async updateProfile(req, res, next) {
-    const { nickName, gender, avatar } = req.body;
+    let { nickName, gender, avatar } = req.body;
 
     nickName = nickName ? nickName.trim() : nickName;
     gender = gender ? gender.trim() : gender;
