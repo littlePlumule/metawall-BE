@@ -118,7 +118,37 @@ const users = {
   },
 
   async updateProfile(req, res, next) {
-    
+    const { nickName, gender, avatar } = req.body;
+
+    nickName = nickName ? nickName.trim() : nickName;
+    gender = gender ? gender.trim() : gender;
+    avatar = avatar ? avatar.trim() : avatar;
+
+    if (!isNotEmpty({ nickName, gender }).valid) {
+      return next(appError(400, 1, isNotEmpty({ nickName, gender }).msg));
+    }
+
+    if (!isValidNickname(nickName).valid) {
+      return next(appError(400, 1, isValidNickname(nickName).msg));
+    }
+
+    if (!isValidGender(gender).valid) {
+      return next(appError(400, 1, isValidGender(gender).msg));
+    }
+
+    const profile = {
+      nickName,
+      gender
+    }
+
+    if (avatar) profile.avatar = avatar;
+
+    const user = await User.findByIdAndUpdate(req.user.id, profile, {
+      new: true,
+      runValidators: true
+    });
+
+    httpResponse(res, user);
   }
 };
 
