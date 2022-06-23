@@ -67,13 +67,14 @@ const resErrorDev = (err, res) => {
 const resErrorProd = (err, res) => {
   if (err.isOperational) {
     res.status(err.statusCode).send({
-      message: err.message
+      message: err.message,
+      error: err.error
     });
   } else {
     console.error('出現重大錯誤', err);
     res.status(500).send({
       status: 'error',
-      message: '系統錯誤，請恰系統管理員'
+      message: '系統錯誤，請恰系統管理員',
     });
   }
 };
