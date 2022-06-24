@@ -3,6 +3,7 @@ const router = express.Router();
 const userControllers = require('../controllers/userController');
 const { isAuth } = require('../service/auth');
 const { catchAsync } = require('../service/errorHandler');
+const { checkUserId } = require('../service/checkId');
 
 // 註冊
 router.post('/register', catchAsync(userControllers.signup));
@@ -17,7 +18,7 @@ router.patch('/password', isAuth, catchAsync(userControllers.updatePassword));
 router.get('/profile', isAuth, catchAsync(userControllers.getMyProfile));
 
 // 取得他人個人頁面
-router.get('/profile/:userId', isAuth, catchAsync(userControllers.getOtherProfile));
+router.get('/profile/:userId', checkUserId, isAuth, catchAsync(userControllers.getOtherProfile));
 
 // 編輯個人資料
 router.patch('/profile', isAuth, catchAsync(userControllers.updateProfile));
