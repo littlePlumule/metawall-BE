@@ -144,7 +144,16 @@ const posts = {
   },
 
   async deletePost(req, res, next) {
-    
+    const { postId } = req.params;
+
+    const post = await Post.findById(postId);
+    if (post.editor.toString() !== req.user.id) {
+      return next(appError(400, 5, { user_id: '您並非發文者，無法修改此貼文' }));
+    }
+
+    await Post.findByIdAndDelete(postId);
+
+    httpResponse(res, '刪除成功');
   }
 };
 
