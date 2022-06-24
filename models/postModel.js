@@ -29,7 +29,8 @@ const postsSchema = new mongoose.Schema({
 }, {
   versionKey: false,
   toJSON: { virtuals: true },
-  toObject: { virtuals: true }
+  toObject: { virtuals: true },
+  id: false
 })
 
 postsSchema.virtual('comments', {
