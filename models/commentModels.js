@@ -27,11 +27,11 @@ const commentSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-}, {versionKey: false});
+}, { versionKey: false });
 
-commentSchema.pre(/^find/, function(next) {
+commentSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'user',
+    path: 'editor',
     select: 'nickName avatar createdAt'
   });
 
