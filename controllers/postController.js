@@ -84,7 +84,10 @@ const posts = {
   },
 
   async getPost(req, res, next) {
-    
+    const { postId } = req.params;
+
+    const post = await Post.findById(postId);
+    httpResponse(res, post);
   },
 
   async createdPost(req, res, next) {
