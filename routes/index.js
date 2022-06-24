@@ -1,5 +1,5 @@
 const usersRouter = require('./user');
-const postsRouter = require('./follows');
+const postsRouter = require('./post');
 const likesRouter = require('./likes');
 const followsRouter = require('./follows');
 const commentRouter = require('./comment.js');
