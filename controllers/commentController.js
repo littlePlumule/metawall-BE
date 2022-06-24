@@ -60,7 +60,16 @@ const comments = {
   },
 
   async deleteComment(req, res, next) {
-    
+    const { commentId } = req.params;
+
+    const material = await Comment.findById(commentId);
+    if (material.editor._id.toString() !== req.user.id) {
+      return next(appError(400, 5, { user_id: '您並非留言者，無法修改此留言' }));
+    }
+
+    await Comment.findByIdAndDelete(commentId);
+
+    httpResponse(res, '刪除成功');
   }
 };
 
