@@ -91,7 +91,26 @@ const posts = {
   },
 
   async createdPost(req, res, next) {
-    
+    let { content, image } = req.body;
+
+    content = content ? content.trim() : content;
+    image = image ? image.trim() : image;
+
+    if (!isNotEmpty(content).valid) {
+      return next(appError(400, 1, isNotEmpty(content).msg));
+    }
+
+    const param = {
+      editor: req.user.id,
+      content
+    };
+
+    if (image) {
+      param.image = image;
+    }
+
+    const newPost = await Post.create(param);
+    httpResponse(res, newPost);
   },
 
   async updatePost(req, res, next) {
