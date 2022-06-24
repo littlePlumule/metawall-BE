@@ -21,6 +21,6 @@ router.post('/post', isAuth, catchAsync(postControllers.createdPost));
 router.patch('/post/:postId', checkPostId, isAuth, catchAsync(postControllers.updatePost));
 
 // 刪除單一貼文
-router.delete('/post/postId', checkPostId, isAuth, catchAsync(postControllers.deletePost));
+router.delete('/post/:postId', checkPostId, isAuth, catchAsync(postControllers.deletePost));
 
 module.exports = router;
