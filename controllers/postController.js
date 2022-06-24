@@ -86,7 +86,7 @@ const posts = {
   async getPost(req, res, next) {
     const { postId } = req.params;
 
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId).populate({ path: 'comments', select: 'editor comment image createdAt'});
     httpResponse(res, post);
   },
 
