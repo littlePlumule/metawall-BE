@@ -37,7 +37,23 @@ const follows = {
   },
 
   async deleteFollow(req, res, next) {
-    
+    if (req.user.id === req.params.userId) {
+      return next(appError(401, 1, { userId: '您無法取消追蹤自己' }));
+    }
+
+    await User.updateOne({
+      _id: req.user.id
+    }, {
+      $pull: { followings: { user: req.params.userId } }
+    });
+
+    await User.updateOne({
+      _id: req.params.userId
+    }, {
+      $pull: { followers: { user: req.user.id } }
+    });
+
+    httpResponse(res, '取消追蹤成功');
   }
 };
 
