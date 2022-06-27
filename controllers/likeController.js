@@ -1,18 +1,26 @@
 const Post = require('../models/postModel');
-const { appError } = require('../service/errorHandler');
 const httpResponse = require('../service/resHandle');
 
 const likes = {
-  async getLikes() {
+  async getLikes(req, res, next) {
+    const list = await Post.find({
+      likes: {
+        $in: [req.user.id]
+      }
+    }).populate({
+      path: 'editor',
+      select: 'nickName avatar _id'
+    });
 
+    httpResponse(res, list);
   },
 
-  async addLike() {
-
+  async addLike(req, res, next) {
+    
   },
 
-  async deleteLike() {
-
+  async deleteLike(req, res, next) {
+    
   }
 };
 
