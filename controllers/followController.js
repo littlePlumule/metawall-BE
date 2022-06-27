@@ -15,7 +15,25 @@ const follows = {
   },
 
   async addFollow(req, res, next) {
-    
+    if (req.user.id === req.params.userId) {
+      return next(appError(401, 1, { userId: '您無法追蹤自己' }));
+    }
+
+    await User.updateOne({
+      _id: req.user.id,
+      'followings.user': { $ne: req.params.userId }
+    }, {
+      $addToSet: { followings: { user: req.params.userId } }
+    });
+
+    await User.updateOne({
+      _id: req.params.userId,
+      'followers.user': { $ne: req.user.id }
+    }, {
+      $addToSet: { followers: { user: req.user.id } }
+    });    
+
+    httpResponse(res, '追蹤成功')
   },
 
   async deleteFollow(req, res, next) {
