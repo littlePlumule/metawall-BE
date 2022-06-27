@@ -16,7 +16,13 @@ const likes = {
   },
 
   async addLike(req, res, next) {
-    
+    await Post.findByIdAndUpdate(req.params.postId, {
+      $addToSet: {
+        likes: req.user.id
+      }
+    });
+
+    httpResponse(res, '按讚成功');
   },
 
   async deleteLike(req, res, next) {
