@@ -26,7 +26,13 @@ const likes = {
   },
 
   async deleteLike(req, res, next) {
-    
+    await Post.findByIdAndUpdate(req.params.postId, {
+      $pull: {
+        likes: req.user.id
+      }
+    });
+
+    httpResponse(res, '取消按讚成功');
   }
 };
 
