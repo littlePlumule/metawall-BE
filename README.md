@@ -1,6 +1,6 @@
 # 貼文動態牆
 ## About the Project
-Nodejs 直播班期末專案，實作貼文動態強所需的 API
+Nodejs 直播班期末專案，實作貼文動態牆前端所需的 API
 ## Design
 ![](https://i.imgur.com/aPQgPEd.png)
 ## Build with
