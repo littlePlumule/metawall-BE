@@ -16,9 +16,9 @@ cd metawall-BE
 npm install
 ```
 3. Setup .env to connect DB
-clone example.env
-設定 參數
-遠端資料庫使用 MongoDB
+- clone example.env
+- 設定 參數
+- 遠端資料庫使用 MongoDB
 
 4. Start Running Server
 ```
