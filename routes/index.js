@@ -3,6 +3,7 @@ const postsRouter = require('./post');
 const likesRouter = require('./likes');
 const followsRouter = require('./follows');
 const commentRouter = require('./comment.js');
+const uploadRouter = require('./upload');
 
 module.exports = app => {
   app.use('/meta/user', usersRouter);
@@ -10,4 +11,5 @@ module.exports = app => {
   app.use('/meta', likesRouter);
   app.use('/meta', followsRouter);
   app.use('/meta/comment', commentRouter);
+  app.use('/meta/upload', uploadRouter);
 };
