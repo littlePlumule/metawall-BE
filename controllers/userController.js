@@ -1,8 +1,10 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
+const Verification = require('../models/verificationModel');
 const { appError } = require('../service/errorHandler');
 const httpResponse = require('../service/resHandle');
 const { generateSendJWT } = require('../service/auth');
+const mailer = require('../service/email');
 const {
   isNotEmpty,
   isValidPassword,
@@ -82,6 +84,53 @@ const users = {
     generateSendJWT(user, 200, res);
   },
 
+  async forgetPassword(req, res, next) {
+    let { email } = req.body;
+
+    email = email ? email.trim() : email;
+
+    if (!isNotEmpty({ email }).valid) {
+      return next(appError(400, 1, isNotEmpty({ email }).msg));
+    }
+
+    if (!isValidEmail(email).valid) {
+      return next(appError(400, 1, isValidEmail(email).msg));
+    }
+
+    const user = await User.findOne({ email }).select('+email');
+
+    if (!user) {
+      return next(appError(400, 1, { email: '此 Email 尚未註冊' }));
+    }
+    
+    await Verification.findOneAndDelete({ user: user._id });
+
+    const { verification } = await Verification.create({
+      user: user._id,
+      verification: (Math.floor(Math.random() * 90000) + 10000).toString()
+    });
+
+    mailer(res, next, user, verification);
+  },
+
+  async verification(req, res, next) {
+    let { userId } = req.params;
+    let inputVerification = req.body.verification;
+
+    inputVerification = inputVerification ? inputVerification.trim() : inputVerification;
+
+    if (!isNotEmpty({ inputVerification }).valid) {
+      return next(appError(400, 1, isNotEmpty({ inputVerification }).msg));
+    }
+
+    const { verification } = await Verification.findOne({ user: userId });
+
+    if (inputVerification !== verification) {
+      return next(appError(400, 3, '驗證碼輸入錯誤，請重新輸入'));
+    }
+    generateSendJWT(userId, 200, res);
+  },
+
   async updatePassword(req, res, next) {
     let { password, confirmPassword } = req.body;
 
@@ -101,7 +150,7 @@ const users = {
     }
 
     const newPassword = await bcrypt.hash(password, 12);
-
+    
     const user = await User.findByIdAndUpdate(req.user.id, { password: newPassword });
 
     generateSendJWT(user, 200, res);

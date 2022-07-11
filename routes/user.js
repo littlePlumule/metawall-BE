@@ -11,6 +11,12 @@ router.post('/register', catchAsync(userControllers.signup));
 // 登入
 router.post('/login', catchAsync(userControllers.signin));
 
+// 忘記密碼
+router.post('/forgetPassword', catchAsync(userControllers.forgetPassword));
+
+// 驗證碼
+router.post('/verification/:userId', catchAsync(userControllers.verification));
+
 // 修改密碼
 router.patch('/password', isAuth, catchAsync(userControllers.updatePassword));
 
