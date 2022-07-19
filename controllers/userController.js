@@ -81,7 +81,7 @@ const users = {
       return next(appError(400, 3, { email: '帳號、密碼不正確' }));
     }
 
-    generateSendJWT(user, 200, res);
+    generateSendJWT(user, 201, res);
   },
 
   async forgetPassword(req, res, next) {
@@ -128,7 +128,7 @@ const users = {
     if (inputVerification !== verification) {
       return next(appError(400, 3, '驗證碼輸入錯誤，請重新輸入'));
     }
-    generateSendJWT(userId, 200, res);
+    generateSendJWT(userId, 201, res);
   },
 
   async updatePassword(req, res, next) {
@@ -153,7 +153,7 @@ const users = {
     
     const user = await User.findByIdAndUpdate(req.user.id, { password: newPassword });
 
-    generateSendJWT(user, 200, res);
+    generateSendJWT(user, 201, res);
   },
 
   async getMyProfile(req, res, next) {

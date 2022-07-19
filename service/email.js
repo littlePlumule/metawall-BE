@@ -3,7 +3,6 @@ const httpResponse = require('./resHandle');
 const { appError } = require('./errorHandler');
 
 const mailer = (res, next, user, randomNum) => {
-  console.log(user);
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -42,7 +41,7 @@ const mailer = (res, next, user, randomNum) => {
       httpResponse(res, '請至 Email 查收信件');
     } else {
       //請稍後重試或聯絡管理員
-      return next(appError(400, 3, error));
+      return next(appError(400, 3, '請稍後重試或聯絡管理員'));
     }
   });
 }

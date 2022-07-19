@@ -1,0 +1,2080 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Metawall API",
+    "description": "Metawall API 文件"
+  },
+  "host": "localhost:3005",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Login",
+      "description": "登入相關"
+    },
+    {
+      "name": "Users",
+      "description": "會員相關"
+    },
+    {
+      "name": "Posts",
+      "description": "貼文相關"
+    },
+    {
+      "name": "Comments",
+      "description": "留言相關"
+    },
+    {
+      "name": "Follows",
+      "description": "追蹤相關"
+    },
+    {
+      "name": "Likes",
+      "description": "按讚相關"
+    },
+    {
+      "name": "Upload",
+      "description": "上傳檔案相關"
+    },
+    {
+      "name": "Orders",
+      "description": "訂單相關"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "in": "headers",
+      "name": "Authorization",
+      "description": "JWT Token"
+    }
+  },
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/meta/user/register": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "註冊",
+        "description": "",
+        "parameters": [
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "註冊資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "test@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "a1234567"
+                },
+                "nickName": {
+                  "type": "string",
+                  "example": "暱稱"
+                }
+              },
+              "required": [
+                "email",
+                "password",
+                "nickName"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "註冊成功",
+            "schema": {
+              "$ref": "#/definitions/Sign"
+            }
+          },
+          "400": {
+            "description": "註冊失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/meta/user/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "登入",
+        "description": "",
+        "parameters": [
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "登入資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "test@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "a1234567"
+                }
+              }
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "登入成功",
+            "schema": {
+              "$ref": "#/definitions/Sign"
+            }
+          },
+          "400": {
+            "description": "登入失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/meta/user/forgetPassword": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "忘記密碼",
+        "description": "",
+        "parameters": [
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "忘記密碼資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "test@gmail.com"
+                }
+              },
+              "required": [
+                "email"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "schema": {
+              "$ref": "#/definitions/Mailer"
+            }
+          },
+          "400": {
+            "description": "失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/meta/user/verification/{userId}": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "驗證碼",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "驗證碼資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "verification": {
+                  "type": "string",
+                  "example": "12345"
+                }
+              },
+              "required": [
+                "verification"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "驗證成功",
+            "schema": {
+              "$ref": "#/definitions/Sign"
+            }
+          },
+          "400": {
+            "description": "驗證失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/meta/user/password": {
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "修改密碼",
+        "description": "",
+        "parameters": [
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "修改密碼資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "a1234567"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "example": "a1234567"
+                }
+              },
+              "required": [
+                "password",
+                "confirmPassword"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "修改密碼成功",
+            "schema": {
+              "$ref": "#/definitions/Sign"
+            }
+          },
+          "400": {
+            "description": "修改密碼失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/user/profile": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "取得個人頁面",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "取得個人資料成功",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "取得訂單列表失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "編輯個人資料",
+        "description": "",
+        "parameters": [
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "編輯個人資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nickName": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "gender": {
+                  "type": "string",
+                  "example": "male"
+                }
+              },
+              "required": [
+                "nickName",
+                "gender"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "編輯個人資料成功",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "編輯個人資料失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/user/profile/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "取得他人個人頁面",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得個人資料成功",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "取得訂單列表失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/posts": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "取得所有貼文",
+        "description": "",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "關鍵字",
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "排序方式，desc 為新至舊，asc 為舊至新，hot 為最熱門",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "當前頁面",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "一頁顯示資料筆數",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得所有貼文成功",
+            "schema": {
+              "$ref": "#/definitions/getPosts"
+            }
+          },
+          "400": {
+            "description": "取得所有貼文失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/posts/{userId}": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "取得個人所有貼文",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "description": "關鍵字",
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "排序方式，desc 為新至舊，asc 為舊至新，hot 為最熱門",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "當前頁面",
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "一頁顯示資料筆數",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得個人所有貼文成功",
+            "schema": {
+              "$ref": "#/definitions/getPosts"
+            }
+          },
+          "400": {
+            "description": "取得個人所有貼文失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/post/{postId}": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "取得單一貼文",
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得單一貼文成功",
+            "schema": {
+              "$ref": "#/definitions/getPost"
+            }
+          },
+          "400": {
+            "description": "取得單一貼文失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "編輯單一貼文",
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "編輯單一貼文資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "test"
+                }
+              },
+              "required": [
+                "content"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "編輯單一貼文成功",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
+          "400": {
+            "description": "編輯單一貼文失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "刪除單一貼文",
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "刪除單一貼文成功",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          },
+          "400": {
+            "description": "刪除單一貼文失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/post": {
+      "post": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "新增單一貼文",
+        "description": "",
+        "parameters": [
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "新增單一貼文資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "example": "test"
+                }
+              },
+              "required": [
+                "content"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "新增單一貼文成功",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          },
+          "400": {
+            "description": "新增單一貼文失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/likes": {
+      "get": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "取得按讚列表",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "取得按讚列表成功",
+            "schema": {
+              "$ref": "#/definitions/Like"
+            }
+          },
+          "400": {
+            "description": "取得訂單列表失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/like/{postId}": {
+      "post": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "按讚",
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得按讚列表成功",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          },
+          "400": {
+            "description": "取得按讚列表失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/unlike/{postId}": {
+      "delete": {
+        "tags": [
+          "Likes"
+        ],
+        "summary": "取消按讚",
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得按讚列表成功",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          },
+          "400": {
+            "description": "取得按讚列表失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/follows": {
+      "get": {
+        "tags": [
+          "Follows"
+        ],
+        "summary": "取得個人追蹤名單",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "取得個人追蹤名單成功",
+            "schema": {
+              "$ref": "#/definitions/Follow"
+            }
+          },
+          "400": {
+            "description": "取得訂單列表失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/follow/{userId}": {
+      "post": {
+        "tags": [
+          "Follows"
+        ],
+        "summary": "追蹤",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "追蹤成功",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          },
+          "400": {
+            "description": "追蹤失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/unfollow/{userId}": {
+      "delete": {
+        "tags": [
+          "Follows"
+        ],
+        "summary": "取消追蹤",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取消追蹤成功",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          },
+          "400": {
+            "description": "取消追蹤失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/comment/{postId}": {
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "新增單一留言",
+        "description": "",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "新增單一留言資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "type": "string",
+                  "example": "test"
+                }
+              },
+              "required": [
+                "comment"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "新增單一留言成功",
+            "schema": {
+              "$ref": "#/definitions/createComment"
+            }
+          },
+          "400": {
+            "description": "新增單一留言失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/comment/{commentId}": {
+      "patch": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "編輯單一留言",
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "request.body",
+            "in": "body",
+            "required": true,
+            "description": "編輯單一留言資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "comment": {
+                  "type": "string",
+                  "example": "test"
+                }
+              },
+              "required": [
+                "comment"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "編輯單一留言成功",
+            "schema": {
+              "$ref": "#/definitions/updateComment"
+            }
+          },
+          "400": {
+            "description": "編輯單一留言失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "刪除單一留言",
+        "description": "",
+        "parameters": [
+          {
+            "name": "commentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "刪除單一留言成功",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          },
+          "400": {
+            "description": "刪除單一留言失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/upload/": {
+      "post": {
+        "tags": [
+          "Upload"
+        ],
+        "summary": "上傳圖片",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "files",
+            "in": "formData",
+            "required": "true",
+            "description": "圖片檔案",
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "上傳圖片成功",
+            "schema": {
+              "$ref": "#/definitions/upload"
+            }
+          },
+          "400": {
+            "description": "上傳圖片失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/createOrder": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "新增一筆訂單",
+        "description": "",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "form",
+            "in": "body",
+            "required": true,
+            "description": "表單資料",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Email": {
+                  "type": "string",
+                  "example": "test@gmail.com"
+                },
+                "Amt": {
+                  "type": "number",
+                  "example": 1000
+                },
+                "ItemDesc": {
+                  "type": "string",
+                  "example": "test"
+                }
+              },
+              "required": [
+                "Email",
+                "Amt",
+                "ItemDesc"
+              ]
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "新增一筆訂單成功",
+            "schema": {
+              "$ref": "#/definitions/createOrder"
+            }
+          },
+          "400": {
+            "description": "新增一筆訂單失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "取得訂單列表",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "取得訂單列表成功",
+            "schema": {
+              "$ref": "#/definitions/getOrders"
+            }
+          },
+          "400": {
+            "description": "取得訂單列表失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/meta/order/{orderNo}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "取得單筆訂單",
+        "description": "",
+        "parameters": [
+          {
+            "name": "orderNo",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "新增一筆訂單成功",
+            "schema": {
+              "$ref": "#/definitions/getOrder"
+            }
+          },
+          "400": {
+            "description": "新增一筆訂單失敗",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "無此路由",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "系統錯誤",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Success": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "成功訊息"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "錯誤訊息"
+        }
+      }
+    },
+    "Sign": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "abcde"
+        },
+        "nickname": {
+          "type": "string",
+          "example": "test"
+        }
+      }
+    },
+    "Mailer": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "請至 Email 查收信件"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "62bd81280e4fd7c1a022ad29"
+            },
+            "nickName": {
+              "type": "string",
+              "example": "sss"
+            },
+            "gender": {
+              "type": "string",
+              "example": "male"
+            },
+            "avatar": {
+              "type": "string",
+              "example": ""
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2022-06-30T10:55:36.985Z"
+            },
+            "updateAt": {
+              "type": "string",
+              "example": "2022-06-30T10:55:36.986Z"
+            },
+            "followers": {
+              "type": "array",
+              "items": {}
+            },
+            "followings": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        }
+      }
+    },
+    "getPosts": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "object",
+              "properties": {
+                "currentPage": {
+                  "type": "number",
+                  "example": 1
+                },
+                "perPage": {
+                  "type": "number",
+                  "example": 10
+                },
+                "total": {
+                  "type": "number",
+                  "example": 4
+                },
+                "totalPage": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            },
+            "list": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "example": "abcd"
+                  },
+                  "editor": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "abcd"
+                      },
+                      "nickName": {
+                        "type": "string",
+                        "example": "test"
+                      },
+                      "avatar": {
+                        "type": "string",
+                        "example": ""
+                      }
+                    }
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "test"
+                  },
+                  "image": {
+                    "type": "string",
+                    "example": ""
+                  },
+                  "likes": {
+                    "type": "array",
+                    "items": {}
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2022-06-27T05:36:11.352Z"
+                  },
+                  "updateAt": {
+                    "type": "string",
+                    "example": "2022-06-27T05:36:11.352Z"
+                  },
+                  "comments": {
+                    "type": "array",
+                    "items": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "getPost": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "editor": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "content": {
+              "type": "string",
+              "example": "test"
+            },
+            "image": {
+              "type": "string",
+              "example": ""
+            },
+            "likes": {
+              "type": "array",
+              "items": {}
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2022-06-27T05:35:22.393Z"
+            },
+            "updateAt": {
+              "type": "string",
+              "example": "2022-06-27T05:35:22.393Z"
+            },
+            "comments": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        }
+      }
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "editor": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "content": {
+              "type": "string",
+              "example": "test"
+            },
+            "image": {
+              "type": "string",
+              "example": ""
+            },
+            "likes": {
+              "type": "array",
+              "items": {}
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2022-07-19T07:39:37.049Z"
+            },
+            "updateAt": {
+              "type": "string",
+              "example": "2022-07-19T07:39:37.049Z"
+            }
+          }
+        }
+      }
+    },
+    "createComment": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "editor": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "post": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "comment": {
+              "type": "string",
+              "example": "test"
+            },
+            "image": {
+              "type": "string",
+              "example": ""
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2022-07-19T07:50:07.626Z"
+            },
+            "updateAt": {
+              "type": "string",
+              "example": "2022-07-19T07:50:07.626Z"
+            }
+          }
+        }
+      }
+    },
+    "updateComment": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "editor": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "abcd"
+                },
+                "nickName": {
+                  "type": "string",
+                  "example": "test"
+                },
+                "avatar": {
+                  "type": "string",
+                  "example": ""
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2022-06-27T05:33:27.387Z"
+                }
+              }
+            },
+            "post": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "comment": {
+              "type": "string",
+              "example": "test"
+            },
+            "image": {
+              "type": "string",
+              "example": ""
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2022-07-19T07:50:07.626Z"
+            },
+            "updateAt": {
+              "type": "string",
+              "example": "2022-07-19T07:50:07.626Z"
+            }
+          }
+        }
+      }
+    },
+    "Follow": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "list": {
+              "type": "array",
+              "items": {}
+            }
+          }
+        }
+      }
+    },
+    "Like": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "upload": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "imgUrl": {
+              "type": "string",
+              "example": "https://i.imgur.com/xxx.jpg"
+            }
+          }
+        }
+      }
+    },
+    "createOrder": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "MerchantID": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "TradeInfo": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "TradeSha": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "Version": {
+              "type": "string",
+              "example": "1.5"
+            },
+            "MerchantOrderNo": {
+              "type": "number",
+              "example": 12345
+            }
+          }
+        }
+      }
+    },
+    "getOrders": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "abcd"
+              },
+              "itemDesc": {
+                "type": "string",
+                "example": "test"
+              },
+              "amt": {
+                "type": "number",
+                "example": 1000
+              },
+              "merchantOrderNo": {
+                "type": "string",
+                "example": "12345"
+              },
+              "paymentStatus": {
+                "type": "number",
+                "example": 0
+              },
+              "payTime": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "getOrder": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "user": {
+              "type": "string",
+              "example": "abcd"
+            },
+            "itemDesc": {
+              "type": "string",
+              "example": "test"
+            },
+            "amt": {
+              "type": "number",
+              "example": 1000
+            },
+            "merchantOrderNo": {
+              "type": "string",
+              "example": "12345"
+            },
+            "paymentStatus": {
+              "type": "number",
+              "example": 0
+            },
+            "payTime": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "schemas": [
+    "http",
+    "https"
+  ]
+}
