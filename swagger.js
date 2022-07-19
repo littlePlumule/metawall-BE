@@ -7,7 +7,7 @@ const doc = {
     description: 'Metawall API 文件'
   },
   host: 'https://infinite-tundra-37613.herokuapp.com',
-  schema: ['http', 'https'],
+  schemas: ['https'],
   tags: [
     { name: "Login", description: "登入相關"},
     { name: "Users", description: "會員相關"},
