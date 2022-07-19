@@ -18,8 +18,8 @@ const Mailer = {
 const User = {
   status: "success",
   data: {
-    _id: "62bd81280e4fd7c1a022ad29",
-    nickName: "sss",
+    _id: "abcd",
+    nickName: "test",
     gender: "male",
     avatar: "",
     createdAt: "2022-06-30T10:55:36.985Z",
