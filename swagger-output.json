@@ -1596,11 +1596,11 @@
           "properties": {
             "_id": {
               "type": "string",
-              "example": "62bd81280e4fd7c1a022ad29"
+              "example": "abcd"
             },
             "nickName": {
               "type": "string",
-              "example": "sss"
+              "example": "test"
             },
             "gender": {
               "type": "string",
