@@ -41,6 +41,7 @@
     }
   ],
   "schemes": [
+    "https",
     "http"
   ],
   "securityDefinitions": {
@@ -2072,8 +2073,5 @@
         }
       }
     }
-  },
-  "schemas": [
-    "https"
-  ]
+  }
 }
