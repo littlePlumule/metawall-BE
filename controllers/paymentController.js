@@ -33,7 +33,6 @@ const order = {
   },
   async notify(req, res, next) {
     const result = decrypt(req.body.TradeInfo);
-    console.log('Notify result', result)
     if (result.Status === 'SUCCESS') {
       let { TradeNo, MerchantOrderNo, PaymentType, PayTime, Amt } = result.Result;
       await Payment.findOneAndUpdate(
