@@ -42,6 +42,9 @@ const order = {
       );
     }
   },
+  async return(req, res, next) {
+    res.redirect('https://www.universewalls.com');
+  },
   async getOrders(req, res, next) {
     const { id } = req.user;
     const orders = await Payment.find({ user: id }).select('-user');

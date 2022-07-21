@@ -44,6 +44,8 @@ router.post('/createOrder', isAuth, catchAsync(paymentController.createOrder)
 
 router.post('/notify', catchAsync(paymentController.notify));
 
+router.post('/return', catchAsync(paymentController.return));
+
 // 取得訂單列表
 router.get('/orders', isAuth, catchAsync(paymentController.getOrders)
   /**
