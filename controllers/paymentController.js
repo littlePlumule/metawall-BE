@@ -32,9 +32,8 @@ const order = {
     httpResponse(res, result.EBPay);
   },
   async notify(req, res, next) {
-    console.log(req.body.TradeInfo)
-    const result = JSON.parse(decrypt(req.body.TradeInfo));
-    console.log('result', result)
+    const result = decrypt(req.body.TradeInfo);
+    console.log('Notify result', result)
     if (result.Status === 'SUCCESS') {
       let { TradeNo, MerchantOrderNo, PaymentType, PayTime, Amt } = result.Result;
       await Payment.findOneAndUpdate(
