@@ -32,9 +32,17 @@ const order = {
     httpResponse(res, result.EBPay);
   },
   async notify(req, res, next) {
+
     const result = JSON.parse(decrypt(req.body.TradeInfo));
 
-    console.log(result);
+    if (result.Status === 'SUCCESS') {
+      let { TradeNo, MerchantOrderNo, PaymentType, PayTime, Amt } = result.Result;
+      await Payment.findOneAndUpdate(
+        { merchantOrderNo: MerchantOrderNo },
+        { paymentStatus: true, tradeNo: TradeNo, paymentType: PaymentType, payTime: PayTime, amt: Amt },
+        { new: true }
+      );
+    }
   },
   async getOrders(req, res, next) {
     const { id } = req.user;
@@ -48,14 +56,14 @@ const order = {
     const order = await Payment.findOne({ merchantOrderNo: orderNo });
 
     if (!order) {
-      return next(appError(400 , 3, '無此訂單編號'));
+      return next(appError(400, 3, '無此訂單編號'));
     }
 
     if (order.user.toString() !== id) {
       return next(appError(400, 5, { user_id: '您並非購物者，無法觀看此訂單內容' }))
     }
 
-    httpResponse(res, order);    
+    httpResponse(res, order);
   }
 };
 

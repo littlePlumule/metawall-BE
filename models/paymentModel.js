@@ -6,6 +6,10 @@ const paymentSchema = mongoose.Schema({
     ref: 'user',
     required: [true, '請填寫 User ID']
   },
+  tradeNo: {
+    type: String,
+    default: ''
+  },
   itemDesc: {
     type: String,
     requried: [true, '請填寫商品名稱']
@@ -24,11 +28,11 @@ const paymentSchema = mongoose.Schema({
     enum: ['WEBATM', 'VACC', 'CVS', 'BARCODE']
   },
   paymentStatus: {
-    type: Number,
-    default: 0
+    type: Boolean,
+    default: false
   },
   payTime: {
-    type: Number,
+    type: String,
     default: 0
   }
 }, { versionKey: false });
