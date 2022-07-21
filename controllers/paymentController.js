@@ -32,7 +32,7 @@ const order = {
     httpResponse(res, result.EBPay);
   },
   async notify(req, res, next) {
-
+    console.log(req.body.TradeInfo)
     const result = JSON.parse(decrypt(req.body.TradeInfo));
 
     if (result.Status === 'SUCCESS') {
