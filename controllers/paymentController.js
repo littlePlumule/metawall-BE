@@ -32,7 +32,9 @@ const order = {
     httpResponse(res, result.EBPay);
   },
   async notify(req, res, next) {
-    console.log('notify', req.body);
+    const result = JSON.parse(decrypt(req.body.TradeInfo));
+
+    console.log(result);
   },
   async getOrders(req, res, next) {
     const { id } = req.user;
