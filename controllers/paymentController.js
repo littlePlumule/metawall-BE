@@ -31,6 +31,9 @@ const order = {
 
     httpResponse(res, result.EBPay);
   },
+  async notify(req, res, next) {
+    console.log(req.body)
+  },
   async getOrders(req, res, next) {
     const { id } = req.user;
     const orders = await Payment.find({ user: id }).select('-user');

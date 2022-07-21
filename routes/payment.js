@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const paymentController = require('../controllers/paymentController');
 const { isAuth } = require('../service/auth');
+const { catchAsync } = require('../service/errorHandler');
 
 // 新增一筆訂單
-router.post('/createOrder', isAuth, paymentController.createOrder
+router.post('/createOrder', isAuth, catchAsync(paymentController.createOrder)
   /**
    * #swagger.tags = ['Orders']
    * #swagger.summary = '新增一筆訂單'
@@ -41,8 +42,10 @@ router.post('/createOrder', isAuth, paymentController.createOrder
    */
 );
 
+router.post('/notify', catchAsync(paymentController.notify));
+
 // 取得訂單列表
-router.get('/orders', isAuth, paymentController.getOrders
+router.get('/orders', isAuth, catchAsync(paymentController.getOrders)
   /**
    * #swagger.tags = ['Orders']
    * #swagger.summary = '取得訂單列表'
@@ -69,7 +72,7 @@ router.get('/orders', isAuth, paymentController.getOrders
 );
 
 // 取得單筆訂單
-router.get('/order/:orderNo', isAuth, paymentController.getOrder
+router.get('/order/:orderNo', isAuth, catchAsync(paymentController.getOrder)
   /**
    * #swagger.tags = ['Orders']
    * #swagger.summary = '取得單筆訂單'
