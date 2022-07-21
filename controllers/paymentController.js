@@ -34,7 +34,7 @@ const order = {
   async notify(req, res, next) {
     console.log(req.body.TradeInfo)
     const result = JSON.parse(decrypt(req.body.TradeInfo));
-
+    console.log('result', result)
     if (result.Status === 'SUCCESS') {
       let { TradeNo, MerchantOrderNo, PaymentType, PayTime, Amt } = result.Result;
       await Payment.findOneAndUpdate(
