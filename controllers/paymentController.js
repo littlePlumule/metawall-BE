@@ -7,6 +7,7 @@ const { isNotEmpty, isValidEmail } = require('../service/validator');
 const order = {
   async createOrder(req, res, next) {
     const { id } = req.user;
+    const donateTo = req.params.postId;
     let { Email, Amt, ItemDesc } = req.body;
     const result = setTradeInfo(Amt, ItemDesc, Email);
 
@@ -23,7 +24,8 @@ const order = {
     }
 
     await Payment.create({
-      user: id,
+      donateFrom: id,
+      donateTo,
       itemDesc: ItemDesc,
       merchantOrderNo: result.mongoose.MerchantOrderNo,
       amt: Amt

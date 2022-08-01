@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 
 const paymentSchema = mongoose.Schema({
-  user: {
+  donateFrom: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'user',
+    required: [true, '請填寫 User ID']
+  },
+  donateTo: {
     type: mongoose.Schema.ObjectId,
     ref: 'user',
     required: [true, '請填寫 User ID']

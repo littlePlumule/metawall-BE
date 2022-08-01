@@ -3,9 +3,10 @@ const router = express.Router();
 const paymentController = require('../controllers/paymentController');
 const { isAuth } = require('../service/auth');
 const { catchAsync } = require('../service/errorHandler');
+const { checkPostId } = require('../service/checkId');
 
 // 新增一筆訂單
-router.post('/createOrder', isAuth, catchAsync(paymentController.createOrder)
+router.post('/createOrder/:postId', checkPostId, isAuth, catchAsync(paymentController.createOrder)
   /**
    * #swagger.tags = ['Orders']
    * #swagger.summary = '新增一筆訂單'
@@ -42,8 +43,10 @@ router.post('/createOrder', isAuth, catchAsync(paymentController.createOrder)
    */
 );
 
+// 藍新金流回傳
 router.post('/notify', catchAsync(paymentController.notify));
 
+// 藍新金流轉址
 router.post('/return', catchAsync(paymentController.return));
 
 // 取得訂單列表
